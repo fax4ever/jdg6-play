@@ -1,7 +1,6 @@
 package it.redhat.demo.rest;
 
 import org.infinispan.manager.EmbeddedCacheManager;
-import org.slf4j.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
@@ -18,9 +17,6 @@ import javax.ws.rs.Path;
 public class SmallRestService extends BaseRestService {
 
     public static final String CACHE_NAME = "small";
-
-    @Inject
-    private Logger log;
 
     @Inject
     private EmbeddedCacheManager cacheManager;

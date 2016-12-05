@@ -8,15 +8,13 @@ import javax.inject.Inject;
 import javax.ws.rs.Path;
 
 /**
- * @author Fabio Massimo Ercoli
- *         fabio.ercoli@redhat.com
- *         on 19/07/16
+ * Created by fabio on 05/12/16.
  */
 @Stateless
-@Path(LargeRestService.CACHE_NAME)
-public class LargeRestService extends BaseRestService {
+@Path(SiteRestService.CACHE_NAME)
+public class SiteRestService extends BaseRestService{
 
-    public static final String CACHE_NAME = "large";
+    public static final String CACHE_NAME = "site";
 
     @Inject
     private EmbeddedCacheManager cacheManager;

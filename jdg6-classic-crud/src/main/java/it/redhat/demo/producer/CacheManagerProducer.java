@@ -1,6 +1,7 @@
 package it.redhat.demo.producer;
 
 import it.redhat.demo.rest.LargeRestService;
+import it.redhat.demo.rest.SiteRestService;
 import org.infinispan.configuration.cache.*;
 import org.infinispan.configuration.global.GlobalConfiguration;
 import org.infinispan.configuration.global.GlobalConfigurationBuilder;
@@ -98,6 +99,16 @@ public class CacheManagerProducer {
                 .singleton()
             .eviction()
                 .maxEntries(maxentries)
+        .build();
+
+        Configuration site = new ConfigurationBuilder()
+            .read(transactional)
+            .clustering()
+                .cacheMode(CacheMode.DIST_ASYNC)
+                .hash()
+                    .numOwners(2)
+                .stateTransfer()
+                    .chunkSize(16384)
             .sites()
                 .addBackup().site("MU").backupFailurePolicy(BackupFailurePolicy.WARN).strategy(BackupConfiguration.BackupStrategy.ASYNC)
             .sites()
@@ -106,6 +117,7 @@ public class CacheManagerProducer {
 
         cacheManager = new DefaultCacheManager(globalConfiguration, small);
         cacheManager.defineConfiguration(LargeRestService.CACHE_NAME, large);
+        cacheManager.defineConfiguration(SiteRestService.CACHE_NAME, site);
 
         cacheManager.start();
 
