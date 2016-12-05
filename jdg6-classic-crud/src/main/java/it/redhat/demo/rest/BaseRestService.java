@@ -3,8 +3,8 @@ package it.redhat.demo.rest;
 import org.infinispan.Cache;
 
 import javax.ws.rs.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Fabio Massimo Ercoli
@@ -94,16 +94,13 @@ public abstract class BaseRestService {
     @Path("list/{max}")
     @GET
     public List<String> list(@PathParam("max") Integer max) {
-        ArrayList<String> result = new ArrayList<>();
 
-        for (int i=0; i<max; i++) {
-            String value = cache.get("key" + i);
-            if (value != null) {
-                result.add(value);
-            }
-        }
+        return cache.entrySet()
+                .stream()
+                .map(entry -> " { " + entry.getKey() + " : " + entry.getValue() + " } ")
+                .limit(max)
+                .collect(Collectors.toList());
 
-        return result;
     }
 
 }
