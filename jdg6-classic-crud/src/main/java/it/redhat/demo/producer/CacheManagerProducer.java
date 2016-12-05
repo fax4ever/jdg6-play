@@ -1,9 +1,7 @@
 package it.redhat.demo.producer;
 
 import it.redhat.demo.rest.LargeRestService;
-import org.infinispan.configuration.cache.CacheMode;
-import org.infinispan.configuration.cache.Configuration;
-import org.infinispan.configuration.cache.ConfigurationBuilder;
+import org.infinispan.configuration.cache.*;
 import org.infinispan.configuration.global.GlobalConfiguration;
 import org.infinispan.configuration.global.GlobalConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
@@ -46,13 +44,14 @@ public class CacheManagerProducer {
         Integer maxentries = Integer.parseInt(System.getProperty(LOY_DATAGRID_MAXENTRIES, "200000"));
         String passivestorage = System.getProperty(LOY_DATAGRID_PASSIVESTORAGE, "loystorage");
         boolean purgeonstartup = Boolean.parseBoolean(System.getProperty(LOY_DATAGRID_PURGEONSTARTUP, "true"));
+        String jgroupsFile = System.getProperty("jgroups.file", "jgroups-udp.xml");
 
         GlobalConfiguration globalConfiguration = new GlobalConfigurationBuilder()
             .transport()
                 .defaultTransport()
                 .clusterName("eap6-jdg-lib-repl")
                 .distributedSyncTimeout(600000l)
-                .addProperty("configurationFile","jgroups-udp.xml")
+                .addProperty("configurationFile",jgroupsFile)
             .globalJmxStatistics()
                 .allowDuplicateDomains(true)
                 .enable()
@@ -99,6 +98,10 @@ public class CacheManagerProducer {
                 .singleton()
             .eviction()
                 .maxEntries(maxentries)
+            .sites()
+                .addBackup().site("MU").backupFailurePolicy(BackupFailurePolicy.WARN).strategy(BackupConfiguration.BackupStrategy.ASYNC)
+            .sites()
+                .addBackup().site("VR").backupFailurePolicy(BackupFailurePolicy.WARN).strategy(BackupConfiguration.BackupStrategy.ASYNC)
         .build();
 
         cacheManager = new DefaultCacheManager(globalConfiguration, small);
