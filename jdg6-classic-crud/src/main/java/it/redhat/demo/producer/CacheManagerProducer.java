@@ -104,7 +104,7 @@ public class CacheManagerProducer {
         Configuration site = new ConfigurationBuilder()
             .read(transactional)
             .clustering()
-                .cacheMode(CacheMode.DIST_ASYNC)
+                .cacheMode(CacheMode.DIST_SYNC)
                 .hash()
                     .numOwners(2)
                 .stateTransfer()
