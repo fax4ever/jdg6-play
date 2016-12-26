@@ -11,6 +11,7 @@
 
     <modules>
         <module>jdg6-classic-crud</module>
+        <module>jdg6-cdi</module>
     </modules>
 
 </project>
