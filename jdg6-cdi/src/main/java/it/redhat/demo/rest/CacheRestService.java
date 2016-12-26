@@ -13,7 +13,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by fabio.ercoli@redhat.com on 26/12/16.
@@ -26,11 +27,6 @@ public class CacheRestService {
     @Inject
     @CiaoCache
     private Cache<CacheKey, String> cache;
-
-    @GET
-    public String gatCiao() {
-        return "ciao";
-    }
 
     @Path("name")
     @GET
@@ -66,8 +62,10 @@ public class CacheRestService {
     @Path("entries")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Set getCachedEntries() {
-        return cache.entrySet();
+    public List<String> getCachedEntries() {
+
+        return cache.entrySet().stream().map(entry -> entry.toString()).collect(Collectors.toList());
+
     }
 
     @CacheRemoveAll(cacheName = "greeting-cache")
