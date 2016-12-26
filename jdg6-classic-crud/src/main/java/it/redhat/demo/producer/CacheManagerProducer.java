@@ -30,9 +30,9 @@ import javax.inject.Inject;
 @Startup
 public class CacheManagerProducer {
 
-    private static final String LOY_DATAGRID_MAXENTRIES = "loy.datagrid.maxentries";
-    private static final String LOY_DATAGRID_PASSIVESTORAGE = "loy.datagrid.passivestorage";
-    private static final String LOY_DATAGRID_PURGEONSTARTUP = "loy.datagrid.purgeonstartup";
+    private static final String LOY_DATAGRID_MAXENTRIES = "jdg.maxentries";
+    private static final String LOY_DATAGRID_PASSIVESTORAGE = "jdg.passivestorage";
+    private static final String LOY_DATAGRID_PURGEONSTARTUP = "jdg.purgeonstartup";
 
     @Inject
     private Logger log;
@@ -43,7 +43,7 @@ public class CacheManagerProducer {
     private void init() {
 
         Integer maxentries = Integer.parseInt(System.getProperty(LOY_DATAGRID_MAXENTRIES, "200000"));
-        String passivestorage = System.getProperty(LOY_DATAGRID_PASSIVESTORAGE, "loystorage");
+        String passivestorage = System.getProperty(LOY_DATAGRID_PASSIVESTORAGE, "passive-storage");
         boolean purgeonstartup = Boolean.parseBoolean(System.getProperty(LOY_DATAGRID_PURGEONSTARTUP, "true"));
         String jgroupsFile = System.getProperty("jgroups.file", "jgroups-udp.xml");
 
@@ -110,9 +110,9 @@ public class CacheManagerProducer {
                 .stateTransfer()
                     .chunkSize(16384)
             .sites()
-                .addBackup().site("MU").backupFailurePolicy(BackupFailurePolicy.WARN).strategy(BackupConfiguration.BackupStrategy.ASYNC)
+                .addBackup().site("SITE-A").backupFailurePolicy(BackupFailurePolicy.WARN).strategy(BackupConfiguration.BackupStrategy.ASYNC)
             .sites()
-                .addBackup().site("VR").backupFailurePolicy(BackupFailurePolicy.WARN).strategy(BackupConfiguration.BackupStrategy.ASYNC)
+                .addBackup().site("SITE-B").backupFailurePolicy(BackupFailurePolicy.WARN).strategy(BackupConfiguration.BackupStrategy.ASYNC)
         .build();
 
         cacheManager = new DefaultCacheManager(globalConfiguration, small);
