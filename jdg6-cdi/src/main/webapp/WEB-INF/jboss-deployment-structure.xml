@@ -3,7 +3,6 @@
     <deployment>
         <dependencies>
             <module name="org.infinispan" slot="jdg-6.6" services="export" />
-            <module name="org.infinispan.cdi" slot="jdg-6.6" meta-inf="export" />
         </dependencies>
         <exclusions>
             <module name="org.jgroups"/>

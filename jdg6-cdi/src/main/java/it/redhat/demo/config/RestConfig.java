@@ -1,4 +1,4 @@
-package it.redhat.demo.rest;
+package it.redhat.demo.config;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -8,5 +8,5 @@ import javax.ws.rs.core.Application;
  */
 
 @ApplicationPath("")
-public class App extends Application {
+public class RestConfig extends Application {
 }
