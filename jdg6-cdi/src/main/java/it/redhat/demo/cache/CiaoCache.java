@@ -1,4 +1,4 @@
-package it.redhat.demo.config;
+package it.redhat.demo.cache;
 
 import javax.inject.Qualifier;
 import java.lang.annotation.*;

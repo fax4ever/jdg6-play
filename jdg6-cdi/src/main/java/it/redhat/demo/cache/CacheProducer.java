@@ -1,4 +1,4 @@
-package it.redhat.demo.config;
+package it.redhat.demo.cache;
 
 import org.infinispan.cdi.ConfigureCache;
 import org.infinispan.configuration.cache.Configuration;

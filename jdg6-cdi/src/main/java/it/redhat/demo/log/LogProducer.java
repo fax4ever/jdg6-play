@@ -1,7 +1,7 @@
 /*
  * 
  */
-package it.redhat.demo.config;
+package it.redhat.demo.log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
